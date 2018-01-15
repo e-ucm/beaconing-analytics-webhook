@@ -38,5 +38,5 @@
     app.use('/', router);
 
 	app.use('/users', require('./user.js')(auth(1), options));
-
+	app.use('/webhooks', require('./webhooks.js')(auth));
 }
