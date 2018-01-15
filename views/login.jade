@@ -1,0 +1,17 @@
+extends layout
+
+block content
+
+      main.mdl-layout__content(style="height: 95%")
+        .page-content(style="height: 95%")
+          .mdl-grid(style="justify-content: center; height: 100%")
+              .mdl-cell--middle
+                .mdl-card.mdl-shadow--2dp
+                  .mdl-card__title
+                    h2.mdl-card__title-text Enter Admin Password
+                  .mdl-card__supporting-text
+                    form(action='/users/login', method='post')
+                      .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+                        input#password.mdl-textfield__input(type='password', name='password')
+                        label.mdl-textfield__label(for='password') Password...
+                      input(type='submit').mdl-button.mdl-js-button.mdl-button--raised.mdl-js-ripple-effect.mdl-button--accent.centered

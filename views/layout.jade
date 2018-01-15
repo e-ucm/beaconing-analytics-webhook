@@ -1,0 +1,77 @@
+doctype html
+html
+  head
+    title Beaconing Webhook
+    link(rel='stylesheet', href='https://fonts.googleapis.com/icon?family=Material+Icons')
+    link(rel='stylesheet', href='https://code.getmdl.io/1.3.0/material.blue_grey-orange.min.css')
+    script(defer='', src='https://code.getmdl.io/1.3.0/material.min.js')
+    // Wide card with share menu button
+    style.
+      body{
+        background-color: lightgray;
+      }
+      .demo-card-wide{
+      width: 100%;
+      }
+      .demo-card-wide > .mdl-card__title {
+      color: #fff;
+      height: 100px;
+      background: gray;
+      }
+      .demo-card-wide > .mdl-card__menu {
+      color: #fff;
+      }
+      .fab-menu{
+      z-index: 1;
+      position: absolute;
+      bottom: 25px;
+      right: 25px;
+      list-style-type: none;
+      }
+      .fab-menu li{
+      display: inline;
+      padding-left: 10px;
+      }
+      .mdl-data-table tr td:first-child{
+        width: 50px;
+      }
+      .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
+        color: white;
+      }
+
+      .mdl-layout__drawer .mdl-navigation .mdl-navigation__link i {
+        margin-right: 32px;
+      }
+      .mdl-navigation__link.whited{
+        color: white;
+      }
+  body
+    .mdl-layout.mdl-js-layout.mdl-layout--fixed-drawer.mdl-layout--fixed-header
+      header.mdl-layout__header
+        .mdl-layout__header-row
+          span.mdl-layout-title Beaconing Analytics Webhook
+          // Add spacer, to align navigation to the right
+          .mdl-layout-spacer
+          // Navigation
+          nav.mdl-navigation
+            a.mdl-navigation__link(href='/api/proxy/surveymanager/users') Home
+            a.mdl-navigation__link(href='') About
+            a.mdl-navigation__link(href='/api/proxy/surveymanager/users/logout') Logout
+      .mdl-layout__drawer.mdl-color--blue-grey-800
+        nav.mdl-navigation.whited
+          a.mdl-navigation__link.whited(href='/api/proxy/surveymanager/users')
+            i.material-icons(role='presentation') home
+            | Home
+          a.mdl-navigation__link.whited(href='/api/proxy/surveymanager/classes')
+            i.material-icons(role='presentation') extension
+            | Webhooks
+          a.mdl-navigation__link.whited(href='/api/proxy/surveymanager/surveys')
+            i.material-icons(role='presentation') announcement
+            | Events
+          .mdl-layout-spacer
+          a.mdl-navigation__link.whited(href='')
+            i.material-icons(role='presentation') help_outline
+            span.visuallyhidden Help
+
+
+      block content
