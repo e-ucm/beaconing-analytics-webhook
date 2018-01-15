@@ -1,0 +1,18 @@
+extends layout
+
+block content
+
+      main.mdl-layout__content(style="height: 95%")
+        .page-content(style="height: 95%")
+          .mdl-grid(style="justify-content: center; height: 100%")
+              .mdl-cell--middle
+                .mdl-card.mdl-shadow--2dp
+                  .mdl-card__title
+                    h2.mdl-card__title-text Welcome to Webhook
+                  .mdl-card__supporting-text
+                    | Manage Webhooks and Events
+                  .mdl-card__actions.mdl-card--border
+                    a.mdl-button.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect(href="../webhooks")
+                      | Manage Webhooks
+                    a.mdl-button.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect(href="../events")
+                      | Manage Events
