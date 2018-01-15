@@ -1,0 +1,62 @@
+extends layout
+
+block content
+
+      main.mdl-layout__content
+        .page-content
+          .mdl-grid
+            each webhook in webhooks
+              .mdl-cell.mdl-cell--4-col
+                .demo-card-wide.mdl-card.mdl-shadow--2dp
+                  .mdl-card__title
+                    h2.mdl-card__title-text Webhook: !{webhook.name}
+                  .mdl-card__supporting-text
+                    | Payload URL: !{webhook.payload_url}
+                    | Content Type: !{webhook.content_type}
+                    | Secret: !{webhook.secret}
+                    | active: !{webhook.active}
+                  .mdl-card__actions.mdl-card--border
+                    a.mdl-button.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect(href="webhooks/view/#{webhook._id}")
+                      | View webhook
+                  .mdl-card__menu
+                    a(href="webhooks/delete/#{webhook._id}").mdl-button.mdl-button--icon.mdl-js-button.mdl-js-ripple-effect
+                      i.material-icons delete
+      ul.fab-menu
+        li
+          button.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored.show-modal
+            i.material-icons add
+      dialog.mdl-dialog.mdl-transition-in
+        form(method="post", action="webhooks")
+          .mdl-dialog__title
+            | Add webhook
+          .mdl-dialog__content
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              input#name.mdl-textfield__input(type='text',name="name", placeholder='Organization webhook')
+              label.mdl-textfield__label(for='name') Webhook name
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              input#payload_url.mdl-textfield__input(type='text', name="payload_url", placeholder='https://notify.me/here')
+              label.mdl-textfield__label(for='payload_url') Payload URL
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              input#content_type.mdl-textfield__input(type='text', name="content_type", placeholder='Content Type')
+              label.mdl-textfield__label(for='content_type') Content Type
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              input#secret.mdl-textfield__input(type='text', name="secret", placeholder='Secret')
+              label.mdl-textfield__label(for='secret') Webhook Secret
+            label.mdl-checkbox.mdl-js-checkbox.mdl-js-ripple-effect(for='active')
+              input#active.mdl-checkbox__input(type='checkbox', checked='', name='active')
+              span.mdl-checkbox__label Active
+          .mdl-dialog__actions.mdl-dialog__actions
+            button.mdl-button(type='submit') Add
+            button.mdl-button.close(type='button') Cancel
+      script.
+        var dialog = document.querySelector('dialog');
+        var showModalButton = document.querySelector('.show-modal');
+        if (! dialog.showModal) {
+        dialogPolyfill.registerDialog(dialog);
+        }
+        showModalButton.addEventListener('click', function() {
+        dialog.showModal();
+        });
+        dialog.querySelector('.close').addEventListener('click', function() {
+        dialog.close();
+        });
