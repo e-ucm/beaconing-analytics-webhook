@@ -37,10 +37,10 @@ block content
               input#payload_url.mdl-textfield__input(type='text', name="payload_url", placeholder='https://notify.me/here')
               label.mdl-textfield__label(for='payload_url') Payload URL
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-              input#content_type.mdl-textfield__input(type='text', name="content_type", placeholder='Content Type')
+              input#content_type.mdl-textfield__input(type='text', name="content_type", placeholder='Content Type', value="application/json")
               label.mdl-textfield__label(for='content_type') Content Type
             .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
-              input#secret.mdl-textfield__input(type='text', name="secret", placeholder='Secret')
+              input#secret.mdl-textfield__input(type='password', name="secret", placeholder='Secret')
               label.mdl-textfield__label(for='secret') Webhook Secret
             label.mdl-checkbox.mdl-js-checkbox.mdl-js-ripple-effect(for='active')
               input#active.mdl-checkbox__input(type='checkbox', checked='', name='active')
