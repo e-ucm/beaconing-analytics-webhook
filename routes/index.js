@@ -39,4 +39,5 @@
 
 	app.use('/users', require('./user.js')(auth(1), options));
 	app.use('/webhooks', require('./webhooks.js')(auth));
+	app.use('/events', require('./events.js')(auth, app.queue));
 }
