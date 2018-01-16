@@ -1,0 +1,53 @@
+extends layout
+
+block content
+
+      main.mdl-layout__content
+        .page-content
+          .mdl-grid
+            each event_type in event_types
+              .mdl-cell.mdl-cell--4-col
+                .demo-card-wide.mdl-card.mdl-shadow--2dp
+                  .mdl-card__title
+                    h2.mdl-card__title-text Event Type: !{event_type.name} (!{event_type.code})
+                  .mdl-card__supporting-text
+                    | !{event_type.description}
+                  .mdl-card__actions.mdl-card--border
+                    a.mdl-button.mdl-button--colored.mdl-js-button.mdl-js-ripple-effect(href="event_types/view/#{event_type._id}")
+                      | View event_type
+                  .mdl-card__menu
+                    a(href="events/delete/#{event_type._id}").mdl-button.mdl-button--icon.mdl-js-button.mdl-js-ripple-effect
+                      i.material-icons delete
+      ul.fab-menu
+        li
+          button.mdl-button.mdl-js-button.mdl-button--fab.mdl-js-ripple-effect.mdl-button--colored.show-modal
+            i.material-icons add
+      dialog.mdl-dialog.mdl-transition-in
+        form(method="post", action="events")
+          .mdl-dialog__title
+            | Add Event type
+          .mdl-dialog__content
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              input#name.mdl-textfield__input(type='text',name="name", placeholder='Something Happened')
+              label.mdl-textfield__label(for='name') Event name
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              input#code.mdl-textfield__input(type='text',name="code", placeholder='something_happened')
+              label.mdl-textfield__label(for='code') Event code
+            .mdl-textfield.mdl-js-textfield.mdl-textfield--floating-label
+              input#description.mdl-textfield__input(type='text', name="description", placeholder='This event gets triggered when something happens')
+              label.mdl-textfield__label(for='description') Description
+          .mdl-dialog__actions.mdl-dialog__actions
+            button.mdl-button(type='submit') Add
+            button.mdl-button.close(type='button') Cancel
+      script.
+        var dialog = document.querySelector('dialog');
+        var showModalButton = document.querySelector('.show-modal');
+        if (! dialog.showModal) {
+        dialogPolyfill.registerDialog(dialog);
+        }
+        showModalButton.addEventListener('click', function() {
+        dialog.showModal();
+        });
+        dialog.querySelector('.close').addEventListener('click', function() {
+        dialog.close();
+        });
