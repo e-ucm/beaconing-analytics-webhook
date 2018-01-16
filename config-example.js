@@ -30,6 +30,10 @@ exports.a2 = {
     a2AdminUsername: '{{a2AdminUsername}}',
     a2AdminPassword: '{{a2AdminPassword}}'
 };
+exports.kafka = {
+    uri: process.env.KAFKA_URI || process.env.KAFKA_URL || '{{kafkaUrl}}',
+    topicName: '{{kafkaTopicName}}'
+};
 exports.mongodb = {
     uri: process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || '{{mongodbUrl}}'
 };

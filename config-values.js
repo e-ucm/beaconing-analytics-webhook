@@ -101,6 +101,10 @@ exports.defaultValues = {
     // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
     a2AdminPassword: process.env.A2_rootPassword || (process.env.A2_ROOTPASSWORD || 'root'),
     apiPath: 'localhost:4050/api',
+    kzkHost: 'localhost',
+    kzkPort: '2181',
+    kafkaUrl: 'localhost:2181',
+    kafkaTopicName: 'defaultwebhooktopic',
     host: 'localhost',
     port: 4050,
     appPrefix: 'webhook',
@@ -122,6 +126,10 @@ exports.testValues = {
     // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
     a2AdminPassword: process.env.A2_rootPassword || (process.env.A2_ROOTPASSWORD || 'root'),
     apiPath: 'localhost:4050/api',
+    kzkHost: 'localhost',
+    kzkPort: '2181',
+    kafkaUrl: 'localhost:2181',
+    kafkaTopicName: 'defaultwebhooktopictests',
     host: 'localhost',
     port: 4050,
     appPrefix: 'webhook',
@@ -147,3 +155,6 @@ exports.testValues.a2ApiPath = exports.defaultValues.a2ApiPath;
 
 exports.testValues.a2AdminUsername = exports.defaultValues.a2AdminUsername;
 exports.testValues.a2AdminPassword = exports.defaultValues.a2AdminPassword;
+
+exports.defaultValues.kafkaUrl = exports.defaultValues.kzkHost + ':' + exports.defaultValues.kzkPort;
+exports.testValues.kafkaUrl = exports.defaultValues.kafkaUrl;
