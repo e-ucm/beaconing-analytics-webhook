@@ -38,7 +38,7 @@ module.exports = function(auth, getBasePath){
 				if(err)
 					return next(new Error(err));
 
-				res.redirect('../../webhooks');
+				res.redirect('../webhooks');
 			});
 		});
 	});

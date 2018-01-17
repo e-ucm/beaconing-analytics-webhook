@@ -39,7 +39,7 @@ module.exports = function(auth, getBasePath, queue){
 				if(err)
 					return next(new Error(err));
 
-				res.redirect('../../events');
+				res.redirect('../events');
 			});
 		});
 	});

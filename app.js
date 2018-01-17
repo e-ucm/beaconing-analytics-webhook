@@ -19,12 +19,11 @@ app.config = config;
 
 // Initialize kafka and topic
 var queue = require('./lib/wrappers/kafka')();
-
-console.info(queue);
+console.info(app.config.kafka);
 
 queue.Init(app.config.kafka, function(error){
   if(error){
-    console.log("Error on kafka inizialization");
+    console.log("Error on kafka Init: " + error);
     return;
   }
 

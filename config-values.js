@@ -137,7 +137,7 @@ exports.testValues = {
 };
 
 var prefix = 'BEACONING_ANALYTICS_WEBHOOK_';
-var links = ['a2','mongo'];
+var links = ['a2','mongo','kzk'];
 initFromEnv(exports.defaultValues, prefix, links);
 initFromEnv(exports.testValues, prefix, links);
 
