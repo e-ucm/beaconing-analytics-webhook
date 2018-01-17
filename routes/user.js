@@ -1,6 +1,6 @@
 /* GET home page. */
 
-module.exports = function(auth, options){
+module.exports = function(auth, getBasePath, options){
 	var request = require('request');
 
 	var options = options['a2']["config"];
@@ -14,7 +14,7 @@ module.exports = function(auth, options){
 
 	/* GET login page. */
 	router.get('/login', function(req, res, next) {
-		res.render('login', { title: 'Admin login' });
+		res.render('login', {basePath: getBasePath(req), title: 'Admin login' });
 	});
 
 	router.get('/logout', function(req, res, next){
@@ -36,7 +36,7 @@ module.exports = function(auth, options){
 
 			if (!error && response.statusCode == 200) {
 				req.session.user = JSON.parse(body).user;
-				res.redirect('/webhooks');
+				res.redirect('../webhooks');
 			}else
 				res.send("Login error: " + error);
 		})

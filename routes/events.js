@@ -1,4 +1,4 @@
-module.exports = function(auth,queue){
+module.exports = function(auth, getBasePath, queue){
 
 	var express = require('express'),
     router = express.Router();
@@ -16,15 +16,15 @@ module.exports = function(auth,queue){
 		], function (err, result) {
 			if(err)
 				return next(new Error(result));
-			res.render('eventtype_list', { title: 'Event Types', event_types: event_types});
+			res.render('eventtype_list', {basePath: getBasePath(req), title: 'Event Types', event_types: event_types});
 		});
 	});
 
-	router.post('/', function(req, res, next){
+	router.post('/', auth(1), function(req, res, next){
 		var event_type = new eventTypeLib.EventType(req.db, req.body);
 
 		event_type.save(function(err,result){
-			res.redirect('events');
+			res.redirect('./events/');
 		});
 	});
 
@@ -39,7 +39,7 @@ module.exports = function(auth,queue){
 				if(err)
 					return next(new Error(err));
 
-				res.redirect('../../events');
+				res.redirect('../../events/');
 			});
 		});
 	});

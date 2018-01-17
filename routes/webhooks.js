@@ -1,4 +1,4 @@
-module.exports = function(auth){
+module.exports = function(auth, getBasePath){
 
 	var express = require('express'),
     router = express.Router();
@@ -15,7 +15,7 @@ module.exports = function(auth){
 		async.waterfall([
 			webhookLib.listWebhooks(db, {}, webhooks),
 		], function (err, result) {
-			res.render('webhook_list', {webhooks: webhooks});
+			res.render('webhook_list', {basePath: getBasePath(req), webhooks: webhooks});
 		});
 	});
 
@@ -23,7 +23,7 @@ module.exports = function(auth){
 		var webhook = new webhookLib.Webhook(req.db, req.body);
 
 		webhook.save(function(err,result){
-			res.redirect('webhooks');
+			res.redirect('./webhooks/');
 		});
 	});
 
@@ -38,7 +38,7 @@ module.exports = function(auth){
 				if(err)
 					return next(new Error(err));
 
-				res.redirect('../../webhooks');
+				res.redirect('../../webhooks/');
 			});
 		});
 	});
