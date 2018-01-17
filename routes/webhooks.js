@@ -23,7 +23,7 @@ module.exports = function(auth, getBasePath){
 		var webhook = new webhookLib.Webhook(req.db, req.body);
 
 		webhook.save(function(err,result){
-			res.redirect('../webhooks');
+			res.redirect('./webhooks/');
 		});
 	});
 
@@ -38,7 +38,7 @@ module.exports = function(auth, getBasePath){
 				if(err)
 					return next(new Error(err));
 
-				res.redirect('../webhooks');
+				res.redirect('../../webhooks/');
 			});
 		});
 	});

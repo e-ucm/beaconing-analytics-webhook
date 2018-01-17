@@ -24,7 +24,7 @@ module.exports = function(auth, getBasePath, queue){
 		var event_type = new eventTypeLib.EventType(req.db, req.body);
 
 		event_type.save(function(err,result){
-			res.redirect('../events');
+			res.redirect('./events/');
 		});
 	});
 
@@ -39,7 +39,7 @@ module.exports = function(auth, getBasePath, queue){
 				if(err)
 					return next(new Error(err));
 
-				res.redirect('../events');
+				res.redirect('../../events/');
 			});
 		});
 	});
