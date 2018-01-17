@@ -20,11 +20,11 @@ module.exports = function(auth, getBasePath, queue){
 		});
 	});
 
-	router.post('/', function(req, res, next){
+	router.post('/', auth(1), function(req, res, next){
 		var event_type = new eventTypeLib.EventType(req.db, req.body);
 
 		event_type.save(function(err,result){
-			res.redirect('events');
+			res.redirect('../events');
 		});
 	});
 

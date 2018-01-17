@@ -36,7 +36,7 @@ module.exports = function(auth, getBasePath, options){
 
 			if (!error && response.statusCode == 200) {
 				req.session.user = JSON.parse(body).user;
-				res.redirect('/webhooks');
+				res.redirect('../webhooks');
 			}else
 				res.send("Login error: " + error);
 		})
