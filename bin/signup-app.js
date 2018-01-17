@@ -19,15 +19,15 @@
 'use strict';
 
 /**
- * This file issues the needed requests to set up the SurveyManager application
- * with the roles defined in the 'a-surveymanager-routes.js' file.
+ * This file issues the needed requests to set up the Webhook application
+ * with the roles defined in the 'a-webhook-routes.js' file.
  *
  */
 
 var Path = require('path');
 var request = require('request');
 var config = require(Path.resolve(__dirname, '../config.js'));
-var appData = require(Path.resolve(__dirname, './a-surveymanager-routes.js')).app;
+var appData = require(Path.resolve(__dirname, './a-webhook-routes.js')).app;
 
 var baseUsersAPI = config.a2.a2ApiPath;
 
@@ -45,7 +45,7 @@ request.post(baseUsersAPI + 'login', {
                 console.error('Could not connect to A2 to login!');
                 return process.exit(-1);
             }
-            console.log('Did not register the SurveyManager with A2, continuing anyway!');
+            console.log('Did not register the Webhook with A2, continuing anyway!');
             return process.exit(0);
         }
 
@@ -65,16 +65,16 @@ request.post(baseUsersAPI + 'login', {
             if (err) {
                 console.error(err);
                 if (err.errno && err.errno.indexOf('ECONNREFUSED') > -1) {
-                    console.error('Could not connect to A2 to register the SurveyManager application!');
+                    console.error('Could not connect to A2 to register the Webhook application!');
                     return process.exit(-1);
                 }
-                console.log('Did not register the SurveyManager with A2, continuing anyway!');
+                console.log('Did not register the Webhook with A2, continuing anyway!');
                 return process.exit(0);
             }
 
             if (body.message) {
                 console.error('Error', body.message,
-                    'Did not register the SurveyManager with A2, continuing anyway!');
+                    'Did not register the Webhook with A2, continuing anyway!');
             } else {
                 console.log('Application and roles setup complete.');
             }
