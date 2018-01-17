@@ -1,4 +1,4 @@
-module.exports = function(auth,queue){
+module.exports = function(auth, getBasePath, queue){
 
 	var express = require('express'),
     router = express.Router();
@@ -16,7 +16,7 @@ module.exports = function(auth,queue){
 		], function (err, result) {
 			if(err)
 				return next(new Error(result));
-			res.render('eventtype_list', { title: 'Event Types', event_types: event_types});
+			res.render('eventtype_list', {basePath: getBasePath(req), title: 'Event Types', event_types: event_types});
 		});
 	});
 

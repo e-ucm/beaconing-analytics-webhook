@@ -1,4 +1,4 @@
-module.exports = function(auth){
+module.exports = function(auth, getBasePath){
 
 	var express = require('express'),
     router = express.Router();
@@ -15,7 +15,7 @@ module.exports = function(auth){
 		async.waterfall([
 			webhookLib.listWebhooks(db, {}, webhooks),
 		], function (err, result) {
-			res.render('webhook_list', {webhooks: webhooks});
+			res.render('webhook_list', {basePath: getBasePath(req), webhooks: webhooks});
 		});
 	});
 

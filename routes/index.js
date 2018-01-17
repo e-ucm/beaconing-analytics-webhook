@@ -28,6 +28,17 @@
 		};
 	};
 
+	var getBasePath = function(req) {
+		if(!req.headers['x-forwarded-proto']) {
+			return '/';
+		} else if (req.protocol === 'https') {
+	        return 'https://' + req.headers['x-forwarded-host'];
+	    }
+
+	    var proto = req.headers['x-forwarded-proto'];
+	    return proto + '://' + req.headers['x-forwarded-host'];
+	};
+
 	var express = require('express'),
     router = express.Router();
 
@@ -37,7 +48,7 @@
 
     app.use('/', router);
 
-	app.use('/users', require('./user.js')(auth(1), options));
-	app.use('/webhooks', require('./webhooks.js')(auth));
-	app.use('/events', require('./events.js')(auth, app.queue));
+	app.use('/users', require('./user.js')(auth(1), getBasePath, options));
+	app.use('/webhooks', require('./webhooks.js')(auth, getBasePath));
+	app.use('/events', require('./events.js')(auth, getBasePath, app.queue));
 }
