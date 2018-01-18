@@ -26,34 +26,6 @@ queue.Init(app.config.kafka, function(error){
     console.log("Error on kafka Init: " + error);
     return;
   }
-
-  var webhookLib = require('./lib/webhook');
-  queue.CreateConsumer(app.config.kafka.topicName, function(message){
-    var value = JSON.parse(message.value);
-    var webhooks = [];
-
-    webhookLib.listWebhooks(db, {}, webhooks)(function(){
-      for(var i in webhooks){
-        this.options = {};
-        this.options.url = webhooks[i].payload_url;
-        this.options.method = "POST";
-        this.options.body = JSON.stringify(value.body);
-        this.options.headers = {
-          'Content-Type': 'application/json',
-          'X-Analytics-Event': value.event
-        }
-    
-        request(this.options, function(webhook){
-          return function(error, response, body){
-            if (!error && response.statusCode == 200) {
-              console.log("Notified " + webhook.name + "("+webhook.payload_url+") of event " + value.event);
-            }else
-              console.log("Can't notify " + webhook.name + "("+webhook.payload_url+") of event " + value.event);
-          }
-        }(webhooks[i]));
-      }
-    });
-  })
 });
 
 app.queue = queue;
