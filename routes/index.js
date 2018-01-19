@@ -28,6 +28,20 @@
 		};
 	};
 
+	var apiAuth = function(level){
+		return function(req, res, next) {
+			if (req.session && req.session.user)
+				return next();
+			else{
+				var pre = '';
+				for(var i = 0; i < level; i++){
+					pre += '../';
+				}
+				return res.status(401).send({message: 'Unauthorized'});
+			}
+		};
+	};
+
 	var getBasePath = function(req) {
 		if(!req.headers['x-forwarded-proto']) {
 			return '/';
@@ -47,6 +61,8 @@
 	});
 
     app.use('/', router);
+
+    app.use('/api/webhooks', require('./api/webhooks.js')(apiAuth));
 
 	app.use('/users', require('./user.js')(auth(1), getBasePath, options));
 	app.use('/webhooks', require('./webhooks.js')(auth, getBasePath));
