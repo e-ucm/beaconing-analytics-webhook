@@ -11,6 +11,7 @@ var monk = require('monk');
 var db = monk(config.mongodb.uri);
 var index = require('./routes/index');
 var request = require('request');
+var elasticsearch = require('elasticsearch');
 
 db.collection('clients');
 
@@ -29,6 +30,24 @@ queue.Init(app.config.kafka, function(error){
 });
 
 app.queue = queue;
+
+//ELASTIC
+
+app.esClient = new elasticsearch.Client({
+    host: app.config.elasticsearch.uri,
+    api: '5.6'
+});
+
+app.esClient.ping({
+    // Ping usually has a 3000ms timeout
+    requestTimeout: 3000
+}, function (error) {
+    if (error) {
+        console.trace('elasticsearch cluster is down!');
+    } else {
+        console.log('Successfully connected to elasticsearch: ' + app.config.elasticsearch.uri);
+    }
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
