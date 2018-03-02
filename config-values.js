@@ -108,7 +108,12 @@ exports.defaultValues = {
     host: 'localhost',
     port: 4050,
     appPrefix: 'webhook',
-    myHost: process.env.MY_HOST || 'localhost'
+    myHost: process.env.MY_HOST || 'localhost',
+    elasticsearchURL: 'http://localhost:9200',
+    elasticsearchHost: 'localhost',
+    elasticsearchPort: 9200,
+    backendName: process.env.BACKEND_NAME,
+    backendPort: process.env.BACKEND_PORT
 };
 
 exports.testValues = {
@@ -133,7 +138,12 @@ exports.testValues = {
     host: 'localhost',
     port: 4050,
     appPrefix: 'webhook',
-    myHost: process.env.MY_HOST || 'localhost'
+    myHost: process.env.MY_HOST || 'localhost',
+    elasticsearchURL: 'http://localhost:9200',
+    elasticsearchHost: 'localhost',
+    elasticsearchPort: 9200,
+    backendName: process.env.BACKEND_NAME,
+    backendPort: process.env.BACKEND_PORT
 };
 
 var prefix = 'BEACONING_ANALYTICS_WEBHOOK_';
@@ -158,3 +168,6 @@ exports.testValues.a2AdminPassword = exports.defaultValues.a2AdminPassword;
 
 exports.defaultValues.kafkaUrl = exports.defaultValues.kzkHost + ':' + exports.defaultValues.kzkPort;
 exports.testValues.kafkaUrl = exports.defaultValues.kafkaUrl;
+
+exports.defaultValues.elasticsearchURL = 'http://' + exports.defaultValues.elasticsearchHost + ':' + exports.defaultValues.elasticsearchPort;
+exports.defaultValues.backendUrl = 'http://' + exports.defaultValues.backendName + ':' + exports.defaultValues.backendPort + '/';

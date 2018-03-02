@@ -30,6 +30,9 @@ exports.a2 = {
     a2AdminUsername: '{{a2AdminUsername}}',
     a2AdminPassword: '{{a2AdminPassword}}'
 };
+exports.elasticsearch = {
+    uri: process.env.ELASTIC_HOST || '{{elasticsearchURL}}'
+};
 exports.kafka = {
     uri: process.env.KAFKA_URI || process.env.KAFKA_URL || '{{kafkaUrl}}',
     topicName: '{{kafkaTopicName}}'
@@ -37,3 +40,4 @@ exports.kafka = {
 exports.mongodb = {
     uri: process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || '{{mongodbUrl}}'
 };
+exports.backendUrl = '{{backendUrl}}';
