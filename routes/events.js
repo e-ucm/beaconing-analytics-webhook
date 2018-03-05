@@ -48,7 +48,7 @@ module.exports = function(auth, getBasePath, queue){
 	router.post('/collector/:event_code', function(req, res, next){
 		if(req.params.event_code === 'glp_assigned'){
 
-			glpHandler.assigned(req.body, req.app.config, req.app.esClient, function(error, result){
+			glpHandler.assigned(req.body.glp, req.app.config, req.app.esClient, function(error, result){
 				if(error){
 					res.json(error);
 				}else{
