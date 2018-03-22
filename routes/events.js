@@ -56,7 +56,7 @@ module.exports = function(auth, getBasePath, queue){
 				}
 			});
 		} else if(req.params.event_code === 'user_created'){
-			userHandler.created(req.body, req.app.config, function(error, result){
+			userHandler.create(req.body, req.app.config, function(error, result){
 				if(error){
 					res.json(error);
 				}else{
