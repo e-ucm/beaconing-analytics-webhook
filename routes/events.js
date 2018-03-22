@@ -50,6 +50,7 @@ module.exports = function(auth, getBasePath, queue){
 		if(req.params.event_code === 'glp_assigned'){
 			glpHandler.assigned(req.body, req.app.config, req.app.esClient, function(error, result){
 				if(error){
+					res.status(400);
 					res.json(error);
 				}else{
 					res.json(result);
@@ -58,6 +59,7 @@ module.exports = function(auth, getBasePath, queue){
 		} else if(req.params.event_code === 'user_created'){
 			userHandler.create(req.body, req.app.config, function(error, result){
 				if(error){
+					res.status(400);
 					res.json(error);
 				}else{
 					res.json(result);
