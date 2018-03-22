@@ -6,6 +6,7 @@ module.exports = function(auth, getBasePath, queue){
 
 	var eventTypeLib = require('../lib/eventtype.js');
 	var glpHandler = require('../lib/glphandler.js');
+	var userHandler = require('../lib/userhandler.js');
 
 	/* GET mis clases view page. */
 	router.get('/', auth(1), function(req, res, next) {
@@ -47,7 +48,6 @@ module.exports = function(auth, getBasePath, queue){
 
 	router.post('/collector/:event_code', function(req, res, next){
 		if(req.params.event_code === 'glp_assigned'){
-
 			glpHandler.assigned(req.body, req.app.config, req.app.esClient, function(error, result){
 				if(error){
 					res.json(error);
@@ -55,7 +55,15 @@ module.exports = function(auth, getBasePath, queue){
 					res.json(result);
 				}
 			});
-		}else{
+		} else if(req.params.event_code === 'user_created'){
+			userHandler.created(req.body, req.app.config, function(error, result){
+				if(error){
+					res.json(error);
+				}else{
+					res.json(result);
+				}
+			});
+		} else {
 			var event_type = new eventTypeLib.EventType(req.db, {code: req.params.event_code});
 
 			event_type.load(function(err,result){
