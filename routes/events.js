@@ -6,7 +6,7 @@ module.exports = function(auth, getBasePath, queue){
 
 	var eventTypeLib = require('../lib/eventtype.js');
 	var glpHandler = require('../lib/glphandler.js');
-	var userHandler = require('../lib/userHandler.js');
+	var userHandler = require('../lib/userhandler.js');
 
 	/* GET mis clases view page. */
 	router.get('/', auth(1), function(req, res, next) {
