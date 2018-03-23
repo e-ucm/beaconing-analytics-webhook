@@ -119,7 +119,7 @@ module.exports = function(auth, getBasePath, queue){
 				return res.json({message: 'Missing group name'});
 	        }
 
-	        if(!checkArray(req.body.students)){
+	        if(!checkArray(req.body.students, res)){
 				return;
 	        }
 
