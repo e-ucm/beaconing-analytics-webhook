@@ -121,7 +121,7 @@ module.exports = function(auth, getBasePath, queue){
 				return res.json({message: 'Unauthorized'});
 	        }
 
-			userHandler.removeGroup(req.body, teacher, req.app.config, function(error, result){
+			userHandler.removeGroup(req.body.id, teacher, req.app.config, function(error, result){
 				if(error){
 					res.status(400);
 					res.json(error);
