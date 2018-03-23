@@ -65,6 +65,22 @@ module.exports = function(auth, getBasePath, queue){
 					res.json(result);
 				}
 			});
+		} else if(req.params.event_code === 'group_created'){
+
+	        var teacher = req.headers['x-gleaner-user'];
+	        if(!teacher){
+	        	res.status(401);
+				return res.json({message: 'Unauthorized'});
+	        }
+
+			userHandler.createGroup(req.body, teacher, req.app.config, function(error, result){
+				if(error){
+					res.status(400);
+					res.json(error);
+				}else{
+					res.json(result);
+				}
+			});
 		} else {
 			var event_type = new eventTypeLib.EventType(req.db, {code: req.params.event_code});
 
