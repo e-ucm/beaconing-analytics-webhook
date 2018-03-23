@@ -8,6 +8,28 @@ module.exports = function(auth, getBasePath, queue){
 	var glpHandler = require('../lib/glphandler.js');
 	var userHandler = require('../lib/userhandler.js');
 
+	var checkArray = function(a, res){
+		if(a && !Array.isArray(a)){
+        	res.status(400);
+			res.json({message: 'Participants lists must be arrays'});
+			return false;
+        }
+
+        if(a && a.length > 0){
+        	for (var i = a.length - 1; i >= 0; i--) {
+        		if(!Number.isInteger(a[i])){
+		        	res.status(400);
+					res.json({message: 'All participants should be integer'});
+					return false;
+        			break;
+        		}
+        	}
+        }
+
+        return true;
+	}
+
+
 	/* GET mis clases view page. */
 	router.get('/', auth(1), function(req, res, next) {
 		var event_types = [];
@@ -57,6 +79,21 @@ module.exports = function(auth, getBasePath, queue){
 				}
 			});
 		} else if(req.params.event_code === 'user_created'){
+			if(!req.body.id){
+	        	res.status(400);
+				return res.json({message: 'Missing user id'});
+	        }
+
+	        if(!req.body.username){
+	        	res.status(400);
+				return res.json({message: 'Missing user username'});
+	        }
+
+	        if(!req.body.role){
+	        	res.status(400);
+				return res.json({message: 'Missing user role'});
+	        }
+
 			userHandler.create(req.body, req.app.config, function(error, result){
 				if(error){
 					res.status(400);
@@ -66,11 +103,24 @@ module.exports = function(auth, getBasePath, queue){
 				}
 			});
 		} else if(req.params.event_code === 'group_created'){
-
 	        var teacher = req.headers['x-gleaner-user'];
 	        if(!teacher){
 	        	res.status(401);
 				return res.json({message: 'Unauthorized'});
+	        }
+
+			if(!req.body.id){
+	        	res.status(400);
+				return res.json({message: 'Missing group id'});
+	        }
+
+	        if(!req.body.name){
+	        	res.status(400);
+				return res.json({message: 'Missing group name'});
+	        }
+
+	        if(!checkArray(req.body.students)){
+				return;
 	        }
 
 			userHandler.createGroup(req.body, teacher, req.app.config, function(error, result){
@@ -89,6 +139,20 @@ module.exports = function(auth, getBasePath, queue){
 				return res.json({message: 'Unauthorized'});
 	        }
 
+	        if(!req.body.id){
+	        	res.status(400);
+				return res.json({message: 'Missing group id'});
+	        }
+
+	        if(!req.body.participants){
+	        	res.status(400);
+				return res.json({message: 'Missing participants object'});
+	        }
+
+	        if(!checkArray(req.body.students, res) || !checkArray(req.body.teachers, res)){
+				return;
+	        }
+
 			userHandler.transformAndAddParticipans(req.body, teacher, req.app.config, function(error, result){
 				if(error){
 					res.status(400);
@@ -105,6 +169,20 @@ module.exports = function(auth, getBasePath, queue){
 				return res.json({message: 'Unauthorized'});
 	        }
 
+	        if(!req.body.id){
+	        	res.status(400);
+				return res.json({message: 'Missing group id'});
+	        }
+
+	        if(!req.body.participants){
+	        	res.status(400);
+				return res.json({message: 'Missing participants object'});
+	        }
+
+	        if(!checkArray(req.body.students, res) || !checkArray(req.body.teachers, res)){
+				return;
+	        }
+
 			userHandler.transformAndRemoveParticipans(req.body, teacher, req.app.config, function(error, result){
 				if(error){
 					res.status(400);
@@ -119,6 +197,11 @@ module.exports = function(auth, getBasePath, queue){
 	        if(!teacher){
 	        	res.status(401);
 				return res.json({message: 'Unauthorized'});
+	        }
+
+	        if(!req.body.id){
+	        	res.status(400);
+				return res.json({message: 'Missing group id'});
 	        }
 
 			userHandler.removeGroup(req.body.id, teacher, req.app.config, function(error, result){
