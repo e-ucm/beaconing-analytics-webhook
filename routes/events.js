@@ -149,7 +149,7 @@ module.exports = function(auth, getBasePath, queue){
 				return res.json({message: 'Missing participants object'});
 	        }
 
-	        if(!checkArray(req.body.students, res) || !checkArray(req.body.teachers, res)){
+	        iif(!checkArray(req.body.participants.students, res) || !checkArray(req.body.participants.teachers, res)){
 				return;
 	        }
 
@@ -179,7 +179,7 @@ module.exports = function(auth, getBasePath, queue){
 				return res.json({message: 'Missing participants object'});
 	        }
 
-	        if(!checkArray(req.body.students, res) || !checkArray(req.body.teachers, res)){
+	        if(!checkArray(req.body.participants.students, res) || !checkArray(req.body.participants.teachers, res)){
 				return;
 	        }
 
