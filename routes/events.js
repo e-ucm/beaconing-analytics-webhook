@@ -70,7 +70,23 @@ module.exports = function(auth, getBasePath, queue){
 
 	router.post('/collector/:event_code', function(req, res, next){
 		if(req.params.event_code === 'glp_assigned'){
-			glpHandler.assigned(req.body, req.app.config, req.app.esClient, function(error, result){
+			var teacher = req.headers['x-gleaner-user'];
+	        if(!teacher){
+	        	res.status(401);
+				return res.json({message: 'Unauthorized'});
+	        }
+
+	        if(!req.body.groupId){
+	        	res.status(400);
+				return res.json({message: 'Missing group id'});
+	        }
+
+	        if(!req.body.glp){
+	        	res.status(400);
+				return res.json({message: 'Missing GLP object'});
+	        }
+
+			glpHandler.assigned(req.body, req.body.groupId, teacher, req.app.config, req.app.esClient, function(error, result){
 				if(error){
 					res.status(400);
 					res.json(error);
