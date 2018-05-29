@@ -11,6 +11,7 @@ var monk = require('monk');
 var db = monk(config.mongodb.uri);
 var index = require('./routes/index');
 var request = require('request');
+var elasticsearch = require('elasticsearch');
 
 db.collection('clients');
 
@@ -26,37 +27,27 @@ queue.Init(app.config.kafka, function(error){
     console.log("Error on kafka Init: " + error);
     return;
   }
-
-  var webhookLib = require('./lib/webhook');
-  queue.CreateConsumer(app.config.kafka.topicName, function(message){
-    var value = JSON.parse(message.value);
-    var webhooks = [];
-
-    webhookLib.listWebhooks(db, {}, webhooks)(function(){
-      for(var i in webhooks){
-        this.options = {};
-        this.options.url = webhooks[i].payload_url;
-        this.options.method = "POST";
-        this.options.body = JSON.stringify(value.body);
-        this.options.headers = {
-          'Content-Type': 'application/json',
-          'X-Analytics-Event': value.event
-        }
-    
-        request(this.options, function(webhook){
-          return function(error, response, body){
-            if (!error && response.statusCode == 200) {
-              console.log("Notified " + webhook.name + "("+webhook.payload_url+") of event " + value.event);
-            }else
-              console.log("Can't notify " + webhook.name + "("+webhook.payload_url+") of event " + value.event);
-          }
-        }(webhooks[i]));
-      }
-    });
-  })
 });
 
 app.queue = queue;
+
+//ELASTIC
+
+app.esClient = new elasticsearch.Client({
+    host: app.config.elasticsearch.uri,
+    api: '5.6'
+});
+
+app.esClient.ping({
+    // Ping usually has a 3000ms timeout
+    requestTimeout: 3000
+}, function (error) {
+    if (error) {
+        console.trace('elasticsearch cluster is down!');
+    } else {
+        console.log('Successfully connected to elasticsearch: ' + app.config.elasticsearch.uri);
+    }
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

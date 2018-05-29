@@ -3,9 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node ./bin/consumer | node ./bin/www",
+    "consumer": "node ./bin/consumer",
     "setup": "node ./bin/setup.js",
     "fast-setup": "NODE_ENV=test node ./bin/setup.js",
+    "fast-setup-win": "set NODE_ENV=test&& npm run setup",
     "routes-signup": "node ./bin/signup-app.js",
     "docker-start": "npm run fast-setup && npm run routes-signup && npm start"
   },
@@ -14,6 +16,7 @@
     "body-parser": "~1.15.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
+    "elasticsearch": "*",
     "express": "~4.14.0",
     "express-session": "*",
     "jade": "~1.11.0",
