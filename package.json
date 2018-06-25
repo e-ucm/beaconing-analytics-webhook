@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/consumer | node ./bin/www",
+    "start": "/bin/bash -c '( node ./bin/consumer & ) && ( node ./bin/www & )'",
     "consumer": "node ./bin/consumer",
     "setup": "node ./bin/setup.js",
     "fast-setup": "NODE_ENV=test node ./bin/setup.js",

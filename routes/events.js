@@ -86,7 +86,7 @@ module.exports = function(auth, getBasePath, queue){
 				return res.json({message: 'Missing GLP object'});
 	        }
 
-			glpHandler.assigned(req.body, req.body.groupId, teacher, req.app.config, req.app.esClient, function(error, result){
+			glpHandler.assigned(req.body, req.body.groupId, teacher, req.app.config, req.app.esClient, queue, function(error, result){
 				if(error){
 					res.status(400);
 					res.json(error);
