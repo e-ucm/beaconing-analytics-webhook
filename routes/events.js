@@ -8,7 +8,15 @@ module.exports = function(auth, getBasePath, queue){
 	var glpHandler = require('../lib/glphandler.js');
 	var userHandler = require('../lib/userhandler.js');
 
-	var checkArray = function(a, res){
+	/**
+	 * Checks if an object is valid to send it to UserHandler, having participants
+	 * (teachers and/or students), and every participant being a int as external IDs
+	 * are integers
+	 * @param  {object} a   The object to be checked
+	 * @param  {object} res The response object to send error if there is.
+	 * @return {object}     True or false if it's a correct object. If fails sends status and result
+	 */
+	var checkParticipantsObject = function(a, res){
 		if(a && !Array.isArray(a)){
         	res.status(400);
 			res.json({message: 'Participants lists must be arrays'});
@@ -29,8 +37,6 @@ module.exports = function(auth, getBasePath, queue){
         return true;
 	}
 
-
-	/* GET mis clases view page. */
 	router.get('/', auth(1), function(req, res, next) {
 		var event_types = [];
 		var db = req.db;
@@ -135,7 +141,7 @@ module.exports = function(auth, getBasePath, queue){
 				return res.json({message: 'Missing group name'});
 	        }
 
-	        if(!checkArray(req.body.students, res)){
+	        if(!checkParticipantsObject(req.body.students, res)){
 				return;
 	        }
 
@@ -165,7 +171,7 @@ module.exports = function(auth, getBasePath, queue){
 				return res.json({message: 'Missing participants object'});
 	        }
 
-	        if(!checkArray(req.body.participants.students, res) || !checkArray(req.body.participants.teachers, res)){
+	        if(!checkParticipantsObject(req.body.participants.students, res) || !checkParticipantsObject(req.body.participants.teachers, res)){
 				return;
 	        }
 
@@ -195,7 +201,7 @@ module.exports = function(auth, getBasePath, queue){
 				return res.json({message: 'Missing participants object'});
 	        }
 
-	        if(!checkArray(req.body.participants.students, res) || !checkArray(req.body.participants.teachers, res)){
+	        if(!checkParticipantsObject(req.body.participants.students, res) || !checkParticipantsObject(req.body.participants.teachers, res)){
 				return;
 	        }
 
