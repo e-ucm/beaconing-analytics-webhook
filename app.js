@@ -54,10 +54,9 @@ app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
 app.use(logger('dev'));
-app.use(bodyParser());
-app.use(bodyParser.urlencoded({ extended: true }));
-// Set up then request size to 1mb to avoid 413 on specially large GLPs
-app.use(bodyParser.json({ limit: '1mb' }))
+app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
+app.use(bodyParser.json({ limit: '5mb' }))
+
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
