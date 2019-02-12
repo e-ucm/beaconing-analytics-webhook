@@ -114,9 +114,9 @@ exports.defaultValues = {
     elasticsearchPort: 9200,
     backendName: process.env.BACKEND_NAME,
     backendPort: process.env.BACKEND_PORT,
-    versionId: '5b165d4ac7171c007719bc62',
-    gameId: '5b165d4ac7171c007719bc61',
-    baseUrl: 'https://analytics.beaconing.eu/'
+    versionId: '5c613b4dcf73440078c85032',
+    gameId: '5c613b4dcf73440078c85031',
+    baseUrl: 'https://analytics.e-ucm.es/'
 };
 
 exports.testValues = {
@@ -147,9 +147,9 @@ exports.testValues = {
     elasticsearchPort: 9200,
     backendName: process.env.BACKEND_NAME,
     backendPort: process.env.BACKEND_PORT,
-    versionId: '5b165d4ac7171c007719bc62',
-    gameId: '5b165d4ac7171c007719bc61',
-    baseUrl: 'https://analytics.beaconing.eu/'
+    versionId: '5c613b4dcf73440078c85032',
+    gameId: '5c613b4dcf73440078c85031',
+    baseUrl: 'https://analytics.e-ucm.es/'
 };
 
 var prefix = 'BEACONING_ANALYTICS_WEBHOOK_';

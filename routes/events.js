@@ -99,13 +99,13 @@ module.exports = function(auth, getBasePath, queue){
 				}else{
 					glpHandler.createActivity(
 							req.body.name,
-							config.formalz.gameId, 
-							config.formalz.versionId,
+							req.app.config.formalz.gameId, 
+							req.app.config.formalz.versionId,
 							room._id,
 							teacher,
 							null,
 							null,
-							config,
+							req.app.config,
 					function(error, activity){
 						if(error){
 							res.status(400);

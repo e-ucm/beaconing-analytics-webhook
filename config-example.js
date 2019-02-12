@@ -42,8 +42,8 @@ exports.mongodb = {
     uri: process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || '{{mongodbUrl}}'
 };
 exports.backendUrl = '{{backendUrl}}';
-exports.beaconing = {
-    gameId: process.env.BEACONING_GAME_ID || '{{gameId}}',
-    versionId: process.env.BEACONING_VERSION_ID || '{{versionId}}',
-    baseUrl: process.env.BEACONING_BASE_URL || '{{baseUrl}}'
+exports.formalz = {
+    gameId: process.env.FORMALZ_GAME_ID || '{{gameId}}',
+    versionId: process.env.FORMALZ_VERSION_ID || '{{versionId}}',
+    baseUrl: process.env.FORMALZ_BASE_URL || '{{baseUrl}}'
 };
