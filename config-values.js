@@ -113,7 +113,10 @@ exports.defaultValues = {
     elasticsearchHost: 'localhost',
     elasticsearchPort: 9200,
     backendName: process.env.BACKEND_NAME,
-    backendPort: process.env.BACKEND_PORT
+    backendPort: process.env.BACKEND_PORT,
+    versionId: '5b165d4ac7171c007719bc62',
+    gameId: '5b165d4ac7171c007719bc61',
+    baseUrl: 'https://analytics.beaconing.eu/'
 };
 
 exports.testValues = {
@@ -143,7 +146,10 @@ exports.testValues = {
     elasticsearchHost: 'localhost',
     elasticsearchPort: 9200,
     backendName: process.env.BACKEND_NAME,
-    backendPort: process.env.BACKEND_PORT
+    backendPort: process.env.BACKEND_PORT,
+    versionId: '5b165d4ac7171c007719bc62',
+    gameId: '5b165d4ac7171c007719bc61',
+    baseUrl: 'https://analytics.beaconing.eu/'
 };
 
 var prefix = 'BEACONING_ANALYTICS_WEBHOOK_';

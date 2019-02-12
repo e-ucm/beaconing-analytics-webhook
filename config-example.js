@@ -28,7 +28,8 @@ exports.a2 = {
     a2Prefix: '{{a2Prefix}}',
     a2HomePage: '{{a2HomePage}}',
     a2AdminUsername: '{{a2AdminUsername}}',
-    a2AdminPassword: '{{a2AdminPassword}}'
+    a2AdminPassword: '{{a2AdminPassword}}',
+    a2Active: process.env.REGISTER_A2 || false
 };
 exports.elasticsearch = {
     uri: process.env.ELASTIC_HOST || '{{elasticsearchURL}}'
@@ -41,3 +42,8 @@ exports.mongodb = {
     uri: process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || '{{mongodbUrl}}'
 };
 exports.backendUrl = '{{backendUrl}}';
+exports.beaconing = {
+    gameId: process.env.BEACONING_GAME_ID || '{{gameId}}',
+    versionId: process.env.BEACONING_VERSION_ID || '{{versionId}}',
+    baseUrl: process.env.BEACONING_BASE_URL || '{{baseUrl}}'
+};

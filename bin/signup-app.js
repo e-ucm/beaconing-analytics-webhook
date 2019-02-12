@@ -40,13 +40,16 @@ request.post(baseUsersAPI + 'login', {
     },
     function (err, httpResponse, body) {
         if (err) {
-            console.error(err);
             if (err.errno && err.errno.indexOf('ECONNREFUSED') > -1) {
-                console.error('Could not connect to A2 to login!');
-                return process.exit(-1);
+                return CheckConfigAndContinue(-1, {
+                    error: err,
+                    message: 'Could not connect to A2 to login!'
+                });
             }
-            console.log('Did not register the Webhook with A2, continuing anyway!');
-            return process.exit(0);
+            return CheckConfigAndContinue(0, {
+                error: err,
+                message: 'Did not register the Webhook with A2!'
+            });
         }
 
         appData.name = config.projectName;
@@ -65,16 +68,22 @@ request.post(baseUsersAPI + 'login', {
             if (err) {
                 console.error(err);
                 if (err.errno && err.errno.indexOf('ECONNREFUSED') > -1) {
-                    console.error('Could not connect to A2 to register the Webhook application!');
-                    return process.exit(-1);
+                    return CheckConfigAndContinue(-1, {
+                        error: err,
+                        message: 'Could not connect to A2 to register the Webhook application!'
+                    });
                 }
-                console.log('Did not register the Webhook with A2, continuing anyway!');
-                return process.exit(0);
+                return CheckConfigAndContinue(0, {
+                    error: err,
+                    message: 'Did not register the Webhook with A2!'
+                });
             }
 
             if (body.message) {
-                console.error('Error', body.message,
-                    'Did not register the Webhook with A2, continuing anyway!');
+                return CheckConfigAndContinue(0, {
+                    error: body.message,
+                    message: 'Did not register the Webhook with A2!'
+                });
             } else {
                 console.log('Application and roles setup complete.');
             }
@@ -82,3 +91,22 @@ request.post(baseUsersAPI + 'login', {
             process.exit(0);
         });
     });
+
+/**
+ * If A2 connection is required and an error is present, this function exits the application.
+ * @param {int}    code  The error code
+ * @param {object} error An object with a detailed explanation of the error, if so.
+ */
+var CheckConfigAndContinue = function(code, error){
+    if(error){
+        console.info(error);
+
+        if(config.a2Active){
+            console.log("Webhook requires A2, exiting!");
+            return process.exit(1);
+        }
+    }
+
+    console.log("Does not require A2, continuing anyway!");
+    return process.exit(code);
+}
