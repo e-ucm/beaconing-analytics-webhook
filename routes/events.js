@@ -101,7 +101,7 @@ module.exports = function(auth, getBasePath, queue){
 							req.body.name,
 							req.app.config.formalz.gameId, 
 							req.app.config.formalz.versionId,
-							room.id,
+							room._id,
 							teacher,
 							null,
 							null,
