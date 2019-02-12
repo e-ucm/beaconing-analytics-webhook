@@ -111,7 +111,7 @@ module.exports = function(auth, getBasePath, queue){
 							res.status(400);
 							res.json(error);
 						}else{
-							glpHandler.createActivity(
+							glpHandler.startActivity(
 									activity._id,
 									teacher,
 									req.app.config,
