@@ -101,7 +101,7 @@ module.exports = function(auth, getBasePath, queue){
 							req.body.name,
 							req.app.config.formalz.gameId, 
 							req.app.config.formalz.versionId,
-							room._id,
+							room.id,
 							teacher,
 							null,
 							null,
@@ -202,7 +202,7 @@ module.exports = function(auth, getBasePath, queue){
 					res.status(400);
 					res.json(error);
 				}else{
-					res.json(result);
+					res.json({message: 'Success.'});
 				}
 			});
 		} else if(req.params.event_code === 'room_participants_added'){
