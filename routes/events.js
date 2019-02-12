@@ -75,7 +75,59 @@ module.exports = function(auth, getBasePath, queue){
 	});
 
 	router.post('/collector/:event_code', function(req, res, next){
-		if(req.params.event_code === 'glp_assigned'){
+		if(req.params.event_code === 'room_created'){
+			var teacher = req.headers['x-gleaner-user'];
+	        if(!teacher){
+	        	res.status(401);
+				return res.json({message: 'Unauthorized'});
+	        }
+
+	        if(!req.body.id){
+	        	res.status(400);
+				return res.json({message: 'Missing room id'});
+	        }
+
+	        if(!req.body.name){
+	        	res.status(400);
+				return res.json({message: 'Missing room name'});
+	        }
+
+	        userHandler.createGroup(req.body, teacher, req.app.config, function(error, room){
+				if(error){
+					res.status(400);
+					res.json(error);
+				}else{
+					glpHandler.createActivity(
+							req.body.name,
+							config.formalz.gameId, 
+							config.formalz.versionId,
+							room._id,
+							teacher,
+							null,
+							null,
+							config,
+					function(error, activity){
+						if(error){
+							res.status(400);
+							res.json(error);
+						}else{
+							glpHandler.createActivity(
+									activity._id,
+									teacher,
+									config,
+							function(error, result){
+								if(error){
+									res.status(400);
+									res.json(error);
+								}else{
+									res.json({trackingCode: activity.trackingCode});
+								}
+							});
+						}
+					});
+				}
+			});
+		} else if(req.params.event_code === 'glp_assigned'){
 			var teacher = req.headers['x-gleaner-user'];
 	        if(!teacher){
 	        	res.status(401);
@@ -153,7 +205,7 @@ module.exports = function(auth, getBasePath, queue){
 					res.json(result);
 				}
 			});
-		} else if(req.params.event_code === 'group_participants_added'){
+		} else if(req.params.event_code === 'room_participants_added'){
 
 	        var teacher = req.headers['x-gleaner-user'];
 	        if(!teacher){
@@ -183,7 +235,7 @@ module.exports = function(auth, getBasePath, queue){
 					res.json(result);
 				}
 			});
-		} else if(req.params.event_code === 'group_participants_removed'){
+		} else if(req.params.event_code === 'room_participants_removed'){
 
 	        var teacher = req.headers['x-gleaner-user'];
 	        if(!teacher){
@@ -213,7 +265,7 @@ module.exports = function(auth, getBasePath, queue){
 					res.json(result);
 				}
 			});
-		} else if(req.params.event_code === 'group_removed'){
+		} else if(req.params.event_code === 'room_removed'){
 
 	        var teacher = req.headers['x-gleaner-user'];
 	        if(!teacher){
