@@ -97,36 +97,68 @@ module.exports = function(auth, getBasePath, queue){
 					res.status(400);
 					res.json(error);
 				}else{
+					res.json({success: true, message: 'room created'});
+				}
+			});
+	    } else if(req.params.event_code === 'puzzle_created'){
+	    	var teacher = req.headers['x-gleaner-user'];
+
+	    	if(!teacher){
+	        	res.status(401);
+				return res.json({message: 'Unauthorized'});
+	        }
+
+	        if(!req.body.room){
+	        	res.status(400);
+				return res.json({message: 'Missing group id'});
+	        }
+
+	        userHandler.getClass(req.body.room, teacher, req.app.config, function(error, room){
+	        	if(error){
+					res.status(400);
+					res.json(error);
+				}else{
 					glpHandler.createActivity(
-							req.body.name,
-							req.app.config.formalz.gameId, 
-							req.app.config.formalz.versionId,
-							room._id,
-							teacher,
-							null,
-							null,
-							req.app.config,
+						req.body.name,
+						req.app.config.formalz.gameId, 
+						req.app.config.formalz.versionId,
+						room._id,
+						teacher,
+						null,
+						null,
+						req.app.config,
 					function(error, activity){
 						if(error){
 							res.status(400);
 							res.json(error);
 						}else{
-							glpHandler.startActivity(
-									activity._id,
-									teacher,
-									req.app.config,
+							glpHandler.updateDashboard(
+								activity._id,
+								JSON.parse(glpHandler.formalzTemplate(activity._id)),
+								req.app.config,
 							function(error, result){
 								if(error){
 									res.status(400);
 									res.json(error);
 								}else{
-									res.json({trackingCode: activity.trackingCode});
+									glpHandler.startActivity(
+										activity._id,
+										teacher,
+										req.app.config,
+									function(error, result){
+										if(error){
+											res.status(400);
+											res.json(error);
+										}else{
+											res.json({activity: activity._id, trackingCode: activity.trackingCode});
+										}
+									});
 								}
 							});
 						}
 					});
 				}
-			});
+	        });
 		} else if(req.params.event_code === 'glp_assigned'){
 			var teacher = req.headers['x-gleaner-user'];
 	        if(!teacher){
