@@ -25,9 +25,9 @@ module.exports = function(auth, getBasePath, queue){
 
         if(a && a.length > 0){
         	for (var i = a.length - 1; i >= 0; i--) {
-        		if(!Number.isInteger(a[i])){
+        		if(!a[i]){
 		        	res.status(400);
-					res.json({message: 'All participants should be integer'});
+					res.json({message: 'All participants should be not null or empty'});
 					return false;
         			break;
         		}
