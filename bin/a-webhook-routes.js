@@ -25,7 +25,49 @@
  */
 
 exports.app = {
+    roles: [
+        {
+            roles: 'teacher',
+            allows: [
+                {
+                    resources: [
+                    	'/events/collector/user_created',
+                        '/events/collector/room_created',
+						'/events/collector/room_participants_added',
+						'/events/collector/room_participants_removed',
+						'/events/collector/room_removed',
+						'/events/collector/puzzle_created'
+                    ],
+                    permissions: [
+                        'post'
+                    ]
+                }
+            ]
+        },
+        {
+            roles: 'formalzadmin',
+            allows: [
+                {
+                    resources: [
+                        '/events/collector/user_created',
+                    ],
+                    permissions: [
+                        'post'
+                    ]
+                }
+            ]
+        }
+    ],
     anonymous: [
-        '*'
+    	'/',
+    	'/webhooks/',
+        '/webhooks/*',
+        '/users/',
+        '/users/*',
+        '/events/'
+    ],
+    autoroles: [
+    	'teacher',
+        'formalzadmin'
     ]
 };

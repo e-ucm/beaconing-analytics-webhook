@@ -185,6 +185,12 @@ module.exports = function(auth, getBasePath, queue){
 				}
 			});
 		} else if(req.params.event_code === 'user_created'){
+			var teacher = req.headers['x-gleaner-user'];
+	        if(!teacher){
+	        	res.status(401);
+				return res.json({message: 'Unauthorized'});
+	        }
+
 			if(!req.body.id){
 	        	res.status(400);
 				return res.json({message: 'Missing user id'});
@@ -200,13 +206,28 @@ module.exports = function(auth, getBasePath, queue){
 				return res.json({message: 'Missing user role'});
 	        }
 
-			userHandler.create(req.body, req.app.config, function(error, result){
-				if(error){
-					res.status(400);
-					res.json(error);
-				}else{
-					res.json(result);
-				}
+	        userHandler.getRoles(teacher, req.app.config, function(error, roles){
+
+	        	if(req.body.role == 'student'){
+	        		if(!roles.includes('teacher') && !roles.includes('formalzadmin')){
+	        			res.status(401);
+	        			return res.json({message: 'Only Teachers or FormalZ Administrators can create student users.'});
+	        		}
+	        	}else if(req.body.role == 'teacher'){
+	        		if(!roles.includes('formalzadmin')){
+	        			res.status(401);
+	        			return res.json({message: 'Only FormalZ Administrators can create teacher users.'});
+	        		}
+	        	}
+
+	        	userHandler.create(req.body, req.app.config, function(error, result){
+					if(error){
+						res.status(400);
+						res.json(error);
+					}else{
+						res.json(result);
+					}
+				});
 			});
 		} else if(req.params.event_code === 'group_created'){
 	        var teacher = req.headers['x-gleaner-user'];
