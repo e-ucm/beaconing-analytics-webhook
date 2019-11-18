@@ -49,7 +49,7 @@ exports.app = {
             allows: [
                 {
                     resources: [
-                        '/events/collector/user_created',
+                        '/events/collector/user_created'
                     ],
                     permissions: [
                         'post'
