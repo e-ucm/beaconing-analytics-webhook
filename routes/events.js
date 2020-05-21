@@ -132,27 +132,16 @@ module.exports = function(auth, getBasePath, queue){
 							res.status(400);
 							res.json(error);
 						}else{
-							glpHandler.updateDashboard(
+							glpHandler.startActivity(
 								activity._id,
-								JSON.parse(glpHandler.formalzTemplate(activity._id)),
+								teacher,
 								req.app.config,
 							function(error, result){
 								if(error){
 									res.status(400);
 									res.json(error);
 								}else{
-									glpHandler.startActivity(
-										activity._id,
-										teacher,
-										req.app.config,
-									function(error, result){
-										if(error){
-											res.status(400);
-											res.json(error);
-										}else{
-											res.json({activity: activity._id, trackingCode: activity.trackingCode});
-										}
-									});
+									res.json({activity: activity._id, trackingCode: activity.trackingCode});
 								}
 							});
 						}
